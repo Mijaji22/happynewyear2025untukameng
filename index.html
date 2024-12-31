@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Tahun Baru Ameng ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .sender {
+            font-size: 1.5em;
+            color: #ff69b4;
+            margin-top: 20px;
+            text-shadow: 0 0 10px rgba(255,105,180,0.5);
+            animation: glowPink 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPink {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,105,180,0.5); }
+            50% { text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+            50% { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6; }
+        }
+
+        .message {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart {
+            color: #ff4d4d;
+            font-size: 2em;
+            animation: pulse 1s infinite;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #ff4d4d, #ff8080);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255,77,77,0.5);
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255,77,77,0.8);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .firework, .spark {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .firework { width: 5px; height: 5px; }
+        .spark { width: 3px; height: 3px; }
+
+        @keyframes firework {
+            0% { transform: translate(0); }
+            100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+
+        @keyframes spark {
+            0% { transform: translate(0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        .sparkles {
+            position: absolute;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkles"></div>
+    <div class="container">
+        <h1>✨ Selamat Tahun Baru 2025 ✨</h1>
+        <div class="heart">❤️</div>
+        <h2>Untuk Ameng Tersayang</h2>
+        <button class="btn" onclick="showMessage(1)">Klik Aku! 😊</button>
+        <div id="message1" class="message">
+            Hai sayangku Ameng! Di tahun baru ini, pertama-tama aku mau minta maaf ya. Maaf karena semalam aku nakal, pulang pagi dan membuatmu khawatir... 🙏
+            <br><br>
+            <button class="btn" onclick="showMessage(2)">Lanjut ❤️</button>
+        </div>
+        <div id="message2" class="message">
+            Aku janji akan lebih baik lagi di tahun ini. Kamu adalah hadiah terindah yang pernah aku dapatkan, dan aku nggak mau membuatmu sedih lagi.
+            <br><br>
+            <button class="btn" onclick="showMessage(3)">Masih ada lagi! 🎉</button>
+        </div>
+        <div id="message3" class="message">
+            Terima kasih sudah mau memaafkan aku. Aku sayang kamu selamanya! ❤️
+            <br>
+            Semoga di tahun 2025 ini kita bisa terus bersama dan membuat kenangan yang lebih indah.
+            <br><br>
+            <button class="btn" onclick="showMessage(4)">Baca yang terakhir! 💝</button>
+        </div>
+        <div id="message4" class="message">
+            P.S: Aku janji nggak akan pulang pagi lagi tanpa izin! 🙏
+            <br><br>
+            <button class="btn" onclick="restartMessages()">Ulang dari awal 🔄</button>
+        </div>
+        <div class="sender">
+            With love, Mija ❤️
+        </div>
+    </div>
+
+    <script>
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight;
+            
+            const tx = (Math.random() - 0.5) * 300;
+            const ty = -(Math.random() * 300 + 200);
+            
+            const hue = Math.random() * 360;
+            firework.style.background = `hsl(${hue}, 100%, 50%)`;
+            firework.style.left = `${startX}px`;
+            firework.style.top = `${startY}px`;
+            firework.style.setProperty('--tx', `${tx}px`);
+            firework.style.setProperty('--ty', `${ty}px`);
+            
+            firework.style.animation = 'firework 1s forwards';
+            
+            document.body.appendChild(firework);
+            
+            setTimeout(() => {
+                createSparks(startX + tx, startY + ty, hue);
+            }, 1000);
+            
+            setTimeout(() => {
+                document.body.removeChild(firework);
+            }, 1000);
+        }
+
+        function createSparks(x, y, hue) {
+            const sparkCount = 20;
+            for(let i = 0; i < sparkCount; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                
+                const angle = (i / sparkCount) * 360;
+                const velocity = 100 + Math.random() * 50;
+                const tx = Math.cos(angle * Math.PI / 180) * velocity;
+                const ty = Math.sin(angle * Math.PI / 180) * velocity;
+                
+                spark.style.background = `hsl(${hue}, 100%, 50%)`;
+                spark.style.left = `${x}px`;
+                spark.style.top = `${y}px`;
+                spark.style.setProperty('--tx', `${tx}px`);
+                spark.style.setProperty('--ty', `${ty}px`);
+                
+                spark.style.animation = 'spark 0.5s forwards';
+                
+                document.body.appendChild(spark);
+                
+                setTimeout(() => {
+                    document.body.removeChild(spark);
+                }, 500);
+            }
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'spark';
+            
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            sparkle.style.background = 'white';
+            sparkle.style.opacity = Math.random();
+            sparkle.style.width = '2px';
+            sparkle.style.height = '2px';
+            
+            document.querySelector('.sparkles').appendChild(sparkle);
+            
+            setTimeout(() => {
+                document.querySelector('.sparkles').removeChild(sparkle);
+            }, 1000);
+        }
+
+        setInterval(createFirework, 800);
+        setInterval(createSparkle, 50);
+
+        function showMessage(num) {
+            document.querySelectorAll('.message').forEach(msg => msg.style.display = 'none');
+            
+            const message = document.getElementById(`message${num}`);
+            message.style.display = 'block';
+            
+            for(let i = 0; i < 15; i++) {
+                setTimeout(createFirework, i * 100);
+            }
+        }
+
+        function restartMessages() {
+            document.querySelectorAll('.message').forEach(msg => msg.style.display = 'none');
+            for(let i = 0; i < 30; i++) {
+                setTimeout(createFirework, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
